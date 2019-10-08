@@ -27,3 +27,6 @@ NAP/
 - [ ] Fase 1
 - [ ] Fase 2
 - [ ] Fase 3
+
+## Aviso legal
+Projeto feito para a disciplina GCC188, ministrada pelo professor Dr. Antônio Maria. Sem fins comerciais, apenas fins institucionais.
