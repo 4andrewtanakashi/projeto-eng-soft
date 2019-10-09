@@ -1,4 +1,5 @@
 # NAP <img src="https://files.catbox.moe/cy8ooj.svg" width="30">
+
 NAP é um serviço inovador que auxilia pessoas que estão em trânsito (viajantes) a encontrar lugares para descansar. É um sistema comunitário, ou seja, os lugares disponíveis na plataforma são oferecidos por outros usuários (proprietários).
 
 ## Serviços relacionados
@@ -23,24 +24,28 @@ NAP/
 │   └── padroes.pdf
 └── README.md
 ```
-# Roteiro
+## Roteiro
 - [X] Fase 0
 - [ ] Fase 1
 - [ ] Fase 2
 - [ ] Fase 3
 
-## Especificação de Requisitos:
-* Configuração de commits : https://gitmoji.carloscuesta.me/ (emojis).
-* Emojis Pesonalizados :
+## Descrição dos commits
+Commits serão feitos de acordo com a seguinte tabela:
 
-|Emoji |    Code     |    Commit Type    |
-|:-----|:------------|:------------------|
-|:100: |   `:100:`   |Trabalho completo. |
-| :x:  |    `:x:`    |Erro de compilação.|
+| Emoji      | Código do emoji     | Tipo do commit        |
+|:----------:|:-------------------:|:---------------------:|
+| :100:      | `:100:`             | Trabalho completo     |
+| :x:        | `:x:`               | Erro de compilação    |
+| :fire:     | `:fire:`            | Remoção de arquivos   |
+| :pencil:   | `:pencil:`          | Documentação          |
+| :hammer:   | `:hammer:`          | Conserto de bugs      |
+| :sparkles: | `:sparkles:`        | Novas funcionalidades |
+| :pencil2:  | `:pencil2:`         | Correção de typos     |
 
-
+Baseado em: [Gitmoji](https://gitmoji.carloscuesta.me/)
 
 ## Aviso legal
-Projeto feito para a disciplina GCC188, ministrada pelo professor Dr. Antônio Maria. Sem fins comerciais, apenas fins institucionais.
+Projeto feito para a disciplina GCC188 da Universidade Federal de Lavras, ministrada pelo professor Dr. Antônio Maria. Sem fins comerciais, apenas fins institucionais.
 
-[![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](https://creativecommons.org/publicdomain/zero/1.0/)
+[<img src="https://upload.wikimedia.org/wikipedia/commons/6/62/PD-icon.svg" width="24">](https://unlicense.org)
