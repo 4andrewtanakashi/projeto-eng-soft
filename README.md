@@ -37,12 +37,6 @@ NAP/
 |:100: |   `:100:`   |Trabalho completo. |
 | :x:  |    `:x:`    |Erro de compilação.|
 
-*usuario:
-- pode cadastrar um imovel
-- pode “reservar” um imovel
-- consultar imoveis do sistema
-- consultar os seus imoveis
-- consultar suas reservas
 
 
 ## Aviso legal
