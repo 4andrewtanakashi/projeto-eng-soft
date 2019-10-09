@@ -20,6 +20,7 @@ NAP/
 ├── html/
 ├── db/
 ├── padroes_adotados/
+│   └── padroes.pdf
 └── README.md
 ```
 # Roteiro
