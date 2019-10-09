@@ -20,10 +20,11 @@ NAP/
 ├── html/
 ├── db/
 ├── padroes_adotados/
+│   └── padroes.pdf
 └── README.md
 ```
 ## Roteiro
-- [ ] Fase 0
+- [x] Fase 0
 - [ ] Fase 1
 - [ ] Fase 2
 - [ ] Fase 3
