@@ -37,10 +37,15 @@ NAP/
 |:100: |   `:100:`   |Trabalho completo. |
 | :x:  |    `:x:`    |Erro de compilação.|
 
-
+*usuario:
+- pode cadastrar um imovel
+- pode “reservar” um imovel
+- consultar imoveis do sistema
+- consultar os seus imoveis
+- consultar suas reservas
 
 
 ## Aviso legal
 Projeto feito para a disciplina GCC188, ministrada pelo professor Dr. Antônio Maria. Sem fins comerciais, apenas fins institucionais.
 
-![Gem Version](http://img.shields.io/gem/v/badgerbadgerbadger.svg?style=flat-square)
+[![CC0](https://licensebuttons.net/p/zero/1.0/88x31.png)](https://creativecommons.org/publicdomain/zero/1.0/)
