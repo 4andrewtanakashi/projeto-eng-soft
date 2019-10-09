@@ -20,14 +20,27 @@ NAP/
 ├── html/
 ├── db/
 ├── padroes_adotados/
-│   └── padroes.pdf
 └── README.md
 ```
-## Roteiro
-- [x] Fase 0
+# Roteiro
+- [X] Fase 0
 - [ ] Fase 1
 - [ ] Fase 2
 - [ ] Fase 3
 
+## Especificação de Requisitos:
+* Configuração de commits : https://gitmoji.carloscuesta.me/ (emojis).
+* Emojis Pesonalizados :
+
+|Emoji |    Code     |    Commit Type    |
+|:-----|:------------|:------------------|
+|:100: |   `:100:`   |Trabalho completo. |
+| :x:  |    `:x:`    |Erro de compilação.|
+
+
+
+
 ## Aviso legal
 Projeto feito para a disciplina GCC188, ministrada pelo professor Dr. Antônio Maria. Sem fins comerciais, apenas fins institucionais.
+
+![Gem Version](http://img.shields.io/gem/v/badgerbadgerbadger.svg?style=flat-square)
