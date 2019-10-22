@@ -22,11 +22,13 @@ NAP/
 ├── db/
 ├── padroes_adotados/
 │   └── padroes.pdf
+├── requisitos/
+│   └── documento\ de\ requisitos.pdf
 └── README.md
 ```
 ## Roteiro
 - [X] Fase 0
-- [ ] Fase 1
+- [X] Fase 1
 - [ ] Fase 2
 - [ ] Fase 3
 
