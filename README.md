@@ -8,7 +8,7 @@ AirBnB, Trivago, Couchsurfing, Expedia, Booking, TripAdvisor.
 ## Ferramentas utilizadas
 | Ferramentas|
 |------------|
-| MariaDB    |
+| SQLite 3   |
 | Django     |
 | Python     |
 | HTML + CSS |
