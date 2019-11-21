@@ -1,0 +1,21 @@
+{% extends 'core/header.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <head>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'core/css/login.css' %}">
+    </head>
+    <body>
+        <div class="form_login border" >
+            <br/>
+            <h2 id="title_log">Login</h2>
+            <form method="post">
+                {% csrf_token %}
+                {{ form|crispy }}
+            <button id="but_log" type="submit" class="btn btn-primary">Login</button>
+            </form>
+        </div>
+    </body>
+{% endblock %}

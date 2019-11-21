@@ -1,0 +1,28 @@
+{% extends 'core/header.html' %}
+
+{% block content %}
+    <head>
+        {% load static %}
+        <link rel="stylesheet" type="text/css" href="{% static 'core/css/propriedades.css' %}">
+    </head>
+    <body>
+        <div>
+            <br/>
+            <h2 class="title_props">{{ titulo }}</h2>
+            <hr/>
+            
+                {% for prop in object_list %}
+                    <div class="border">
+                        <div class="tag">{{ prop.get_status_display }}</div> 
+                        <img  class="img_props" src="{{prop.imagem.url}}"></img>
+                        <br/><br>
+                        <a class="a_props" href="/propriedade/{{prop.get_id}}">{{ prop.nome }}</a>
+                        <br>
+                        <p class="position_desc"> {{ prop.descricao}} </p>
+                        <div class="tag_triagle"> </div>
+                    </div>
+                {% endfor %}
+   
+        </div>
+    </body>
+{% endblock %}

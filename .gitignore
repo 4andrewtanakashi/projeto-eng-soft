@@ -1,6 +1,9 @@
 
-# Created by https://www.gitignore.io/api/linux,macos,python,django,windows,virtualenv,sublimetext,visualstudiocode
-# Edit at https://www.gitignore.io/?templates=linux,macos,python,django,windows,virtualenv,sublimetext,visualstudiocode
+# Created by https://www.gitignore.io/api/code,linux,macos,python,django,windows,sublimetext
+# Edit at https://www.gitignore.io/?templates=code,linux,macos,python,django,windows,sublimetext
+
+### Code ###
+.vscode/*
 
 ### Django ###
 *.log
@@ -241,36 +244,6 @@ bh_unicode_properties.cache
 # https://packagecontrol.io/packages/sublime-github
 GitHub.sublime-settings
 
-### VirtualEnv ###
-# Virtualenv
-# http://iamzed.com/2009/05/07/a-primer-on-virtualenv/
-[Bb]in
-[Ii]nclude
-[Ll]ib
-[Ll]ib64
-[Ll]ocal
-[Ss]cripts
-pyvenv.cfg
-.env
-.venv
-env/
-venv/
-ENV/
-env.bak/
-venv.bak/
-pip-selfcheck.json
-
-### VisualStudioCode ###
-.vscode/*
-!.vscode/settings.json
-!.vscode/tasks.json
-!.vscode/launch.json
-!.vscode/extensions.json
-
-### VisualStudioCode Patch ###
-# Ignore all local history of files
-.history
-
 ### Windows ###
 # Windows thumbnail cache files
 Thumbs.db
@@ -297,4 +270,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-# End of https://www.gitignore.io/api/linux,macos,python,django,windows,virtualenv,sublimetext,visualstudiocode
+# End of https://www.gitignore.io/api/code,linux,macos,python,django,windows,sublimetext

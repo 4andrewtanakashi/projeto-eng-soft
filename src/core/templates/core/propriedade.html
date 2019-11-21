@@ -1,0 +1,25 @@
+{% extends 'core/header.html' %}
+{% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'core/css/propriedades.css' %}">
+{% block content %}
+
+            {% if user.is_authenticated and prop.proprietario == user  %}
+            <a href="/editar/{{prop.id}}">Editar</a>
+            {% elif prop.get_status_display == "disponivel" %}
+            <a href="/reservar/{{prop.id}}">Reservar</a>
+            {% endif %}
+
+            <br>
+            <div class="border">
+                <div class="tag"></div> 
+                <img  class="img_props" src="{{prop.imagem.url}}"></img>
+                <br/><br>
+                <h4>{{ prop.nome }}</h4>
+                <br>
+                <p class="position_desc"> {{ prop.descricao}} </p>
+                {{ prop.get_status_display }}
+                <div class="tag_triagle"> </div>
+            </div>
+            <a href="javascript:history.back()">Voltar</a>
+
+{% endblock %}

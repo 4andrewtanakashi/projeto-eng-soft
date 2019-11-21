@@ -1,0 +1,51 @@
+h2.title_props {
+    font-style: oblique;
+    font-family: 'Courier New', Courier, monospace;
+    position: relative;
+    left: 11em;
+}
+
+div.border {
+    width: 24VW;
+    height: 53VH;
+}
+
+a.a_props {
+    position: relative;
+    left: 7em;
+}
+
+img.img_props {
+    position: relative;
+    left: 2em;
+    height: 49%;
+    width: 84%;
+}
+
+p.position_desc {
+    position: relative;
+    left: 2em;
+    top: 1em;
+}
+
+div.tag {
+    color: black;
+    font-size: 1em;
+    color: #b59309;
+    font-family: 'Comic Sans MS';
+    position: relative;
+    left: 8em;
+    top: 0em;
+    /* transform: rotate(48deg); */
+    z-index: 1;
+}
+
+/* div.tag_triagle {
+    position: relative;
+    left: 15em;
+    top: -19em;
+    width: 0;
+    height: 0;
+    border-top: 100px solid pink;
+    border-left: 100px solid transparent;
+} */

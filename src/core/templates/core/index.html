@@ -1,0 +1,50 @@
+{% extends 'core/header.html' %}
+
+
+
+    {% block content %}
+        <head>
+            {% load static %}
+            <script type="text/javascript" src="{% static 'core/main.js' %}"></script>
+            <link rel="stylesheet" type="text/css" href="{% static 'core/css/style.css' %}">
+        </head>
+        <body>
+            <br/>
+            <div class="hero-full-container background-image-container white-text-container" >
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="hero-full-wrapper">
+                                <div class="text-content">
+                                <h1>Oi,</h1>
+                            
+                                {% if user.is_authenticated %}
+                                    <span id="typed-strings">
+                                    <span>Bem vindo</span>
+                                    <span>{{ user.get_username }}</span>
+                                    </span>
+                                    <span id="typed"></span> 
+                                {% else %}
+                                    <span id="typed-strings">
+                                    <span>Por favor,</span>
+                                    <span>faça login para poder usar o sistema.</span>
+                                    </span>
+                                    <span id="typed"></span>
+                                {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function (event) {
+                type();
+                movingBackgroundImage();
+                });
+            </script>
+            
+        </body>
+    
+{% endblock %}
