@@ -7,11 +7,11 @@ AirBnB, Trivago, Couchsurfing, Expedia, Booking, TripAdvisor.
 
 ## Ferramentas utilizadas
 | Ferramentas| Versão|
-|------------| |-------|
-| SQLite 3   | | 3.28.0|
-| Django     | | 2.2.7 |
-| Python     | | 3.7.3 |
-| HTML + CSS | |-------|
+|------------|-------|
+| SQLite 3   | 3.28.0|
+| Django     | 2.2.7 |
+| Python     | 3.7.3 |
+| HTML + CSS |-------|
 
 ## Estrutura do diretório
 ```
