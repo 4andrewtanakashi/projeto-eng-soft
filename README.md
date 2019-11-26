@@ -6,7 +6,7 @@ NAP é um serviço inovador que auxilia pessoas que estão em trânsito (viajant
 AirBnB, Trivago, Couchsurfing, Expedia, Booking, TripAdvisor.
 
 ## Ferramentas utilizadas
-| Ferramentas| | Versão|
+| Ferramentas| Versão|
 |------------| |-------|
 | SQLite 3   | | 3.28.0|
 | Django     | | 2.2.7 |
