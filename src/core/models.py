@@ -52,6 +52,9 @@ class Reserva(models.Model):
     hospede = models.ForeignKey(User, on_delete=models.PROTECT, blank=True)
     propriedade = models.ForeignKey(Propriedade, on_delete=models.PROTECT, blank=True)
     dados_pagamento = models.ForeignKey('Pagamento', on_delete=models.PROTECT, blank=True)
+
+    qtdPessoas = models.IntegerField('Quantidade de pessoas da reserva', default=1)
+    ini = models.DateField('Inicio da reserva', default=datetime.datetime.now)
     fim = models.DateField('Fim da reserva', default=get_data)
 
     def __str__(self):
@@ -61,17 +64,30 @@ class Reserva(models.Model):
 class Pagamento(models.Model):
     """Representa o pagamento de uma reserva existente no sistema"""
     id_transacao = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="O id unico da transacao")
+
+    ESCOLHAS_PAGAMENTO = (
+        ('Débito', 'Débito'),
+        ('Crédito', 'Crédito')
+    )
     
+    tipo_pagamento = models.CharField(
+        max_length=7,
+        choices=ESCOLHAS_PAGAMENTO,
+        blank=False,
+        default='Crédito',
+        help_text='Tipo de pagamento'
+    )
+
     PAGAMENTO_STATUS = (
-        ('c', 'concluido'),
-        ('i', 'inconcluido')
+        ('C', 'concluido'),
+        ('I', 'inconcluido')
     )
 
     status = models.CharField(
         max_length=1,
         choices=PAGAMENTO_STATUS,
         blank=True,
-        default='c',
+        default='C',
         help_text="Status do pagamento"
     )
 

@@ -10,7 +10,7 @@
             <br/>
             <h2 class="title_props">{{ titulo }}</h2>
             <hr/>
-            
+
                 {% for prop in object_list %}
                     <div class="border">
                         <div class="tag">{{ prop.get_status_display }}</div> 
@@ -21,6 +21,8 @@
                         <p class="position_desc"> {{ prop.descricao}} </p>
                         <div class="tag_triagle"> </div>
                     </div>
+                {% empty %}
+                    <h3>Vazio...</h3>
                 {% endfor %}
    
         </div>

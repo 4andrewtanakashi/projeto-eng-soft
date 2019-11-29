@@ -14,4 +14,7 @@ urlpatterns = [
     path('minhasprop/', login_required(MinhasPropriedades.as_view()), name='minhaspropriedades'),
     path('editar/<uuid:pk>', login_required(edit_propriedade_form), name='editar'),
     path('reservar/<uuid:pk>', login_required(add_reserva), name='reservar'),
+    path('propriedades/<slug:cidade>/<slug:ini>/<slug:fim>', login_required(PropDisponiveis.as_view()), name='propriedades'),
+    path('busca', login_required(busca_cidade), name='buscar'),
+
 ]

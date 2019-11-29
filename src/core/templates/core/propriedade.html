@@ -5,7 +5,7 @@
 
             {% if user.is_authenticated and prop.proprietario == user  %}
             <a href="/editar/{{prop.id}}">Editar</a>
-            {% elif prop.get_status_display == "disponivel" %}
+            {% else %}
             <a href="/reservar/{{prop.id}}">Reservar</a>
             {% endif %}
 
