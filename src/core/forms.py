@@ -68,9 +68,9 @@ class PagamentoForm(forms.ModelForm):
         }
 
 class BuscaPropForm(forms.Form):
-    cidade = forms.CharField(label='cidade', max_length=100)
-    data_ini = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
-    data_fim = forms.DateField(widget=forms.DateInput(attrs={'type': 'date'}))
+    cidade = forms.CharField(label='cidade', max_length=100,widget=forms.TextInput(attrs={'class': 'form-control'}))
+    data_ini = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}))
+    data_fim = forms.DateField(widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}))
 
 
 

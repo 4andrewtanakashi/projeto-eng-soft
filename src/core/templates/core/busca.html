@@ -2,10 +2,14 @@
 
 
 {% block content %}
-<form method="post">
-    {% csrf_token %}
-    {{ form }}
-    <input type="submit" value="Submit">
+<form style="padding: 1em 1em 1em 1em;
+    position: relative;
+    top: 7em;
+    left: 18em;" class="container justify-content-center border" method="post">
+    <div class="form-group">
+        {% csrf_token %}
+        {{ form }}
+    </div>
+    <input class="btn btn-primary" type="submit" value="Submit">
 </form>
-
 {% endblock %}

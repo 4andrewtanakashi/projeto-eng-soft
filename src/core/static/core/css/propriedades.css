@@ -36,16 +36,5 @@ div.tag {
     position: relative;
     left: 8em;
     top: 0em;
-    /* transform: rotate(48deg); */
     z-index: 1;
 }
-
-/* div.tag_triagle {
-    position: relative;
-    left: 15em;
-    top: -19em;
-    width: 0;
-    height: 0;
-    border-top: 100px solid pink;
-    border-left: 100px solid transparent;
-} */
