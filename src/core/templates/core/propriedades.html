@@ -1,30 +1,45 @@
 {% extends 'core/header.html' %}
 
 {% block content %}
-    <head>
-        {% load static %}
-        <link rel="stylesheet" type="text/css" href="{% static 'core/css/propriedades.css' %}">
-    </head>
-    <body>
-        <div>
-            <br/>
-            <h2 class="title_props">{{ titulo }}</h2>
-            <hr/>
+<div class="container-fluid pt-5 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title" style="display: inline;">{{ titulo }} </h2>
+                </div>
+                <div class="card-body grid-container">
 
-                {% for prop in object_list %}
-                    <div class="border">
-                        <div class="tag">{{ prop.get_status_display }}</div> 
-                        <img  class="img_props" src="{{prop.imagem.url}}"></img>
-                        <br/><br>
-                        <a class="a_props" href="/propriedade/{{prop.get_id}}">{{ prop.nome }}</a>
-                        <br>
-                        <p class="position_desc"> {{ prop.descricao}} </p>
-                        <div class="tag_triagle"> </div>
+                    {% if object_list|length >= 3 %}
+                    <div class="card-columns">
+                    {% endif %}
+
+                        {% for prop in object_list %}
+                        <div class="card mb-4 p">
+                            <img class="card-img-top" src="{{prop.imagem.url}}" width=100%></img>
+                            <div class="card-body">
+                                {% if ini and fim %}
+                                <h5 class="card-title"><a href="/propriedade/{{prop.get_id}}/{{ini}}/{{fim}}">{{ prop.nome }}</a></h5>
+                                {% else %}
+                                <h5 class="card-title"><a href="/propriedade/{{prop.get_id}}/">{{ prop.nome }}</a></h5>
+                                {% endif %}
+                                {{ prop.descricao}}
+                            </div>
+                        </div>
+
+                        {% empty %}
+                        Vazio...
+                        {% endfor %}
+
+                    {% if object_list|length >= 3 %}
                     </div>
-                {% empty %}
-                    <h3>Vazio...</h3>
-                {% endfor %}
-   
+                    {% endif %}
+
+
+                </div>
+            </div>
         </div>
-    </body>
+    </div>
+</div>
+
 {% endblock %}

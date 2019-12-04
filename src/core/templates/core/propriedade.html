@@ -1,25 +1,74 @@
 {% extends 'core/header.html' %}
-{% load static %}
-<link rel="stylesheet" type="text/css" href="{% static 'core/css/propriedades.css' %}">
+
 {% block content %}
 
-            {% if user.is_authenticated and prop.proprietario == user  %}
-            <a href="/editar/{{prop.id}}">Editar</a>
-            {% else %}
-            <a href="/reservar/{{prop.id}}">Reservar</a>
+<div class="modal fade" id="cancelar" tabindex="-1" role="dialog" aria-labelledby="cancelar" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Perigo</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Deseja realmente remover a propriedade?
+            </div>
+            <div class="modal-footer">
+
+
+                <form id="apagar" action="/propriedade/remover/{{prop.id}}/" method="POST" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Não</button>
+                    <input type="submit" class="btn btn-danger" value="Sim"></button>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid pt-5 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-8">
+
+            {% if messages %}
+            <div class="alert alert-danger" role="alert">
+                {% for message in messages %}
+                {{ message }}
+                {% endfor %}
+            </div>
             {% endif %}
 
-            <br>
-            <div class="border">
-                <div class="tag"></div> 
-                <img  class="img_props" src="{{prop.imagem.url}}"></img>
-                <br/><br>
-                <h4>{{ prop.nome }}</h4>
-                <br>
-                <p class="position_desc"> {{ prop.descricao}} </p>
-                {{ prop.get_status_display }}
-                <div class="tag_triagle"> </div>
-            </div>
-            <a href="javascript:history.back()">Voltar</a>
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title" style="display: inline;">{{ prop.nome }}</h2>
+                    <div class="float-right">
+                        <ul class="nav nav-pills card-header-pills">
+                            {% if user.is_authenticated and prop.proprietario == user  %}
+                            <li class="nav-link">
+                                <a href="/propriedade/editar/{{prop.id}}/" class="card-link">Editar</a>
+                            </li>
+                            <li class="nav-link">
+                                <a href="#cancelar" role="button" data-toggle="modal">Remover</a>
+                            </li>
+                            
+                            {% endif %}
+                    </div>
+                </div>
+                <img src="{{prop.imagem.url}}" width=100%>
+                <div class="card-body">
+                    <div class="row">
 
+                        <h6>Sobre:</h6>
+                        {{ prop.descricao}}
+
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
