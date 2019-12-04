@@ -16,20 +16,24 @@ AirBnB, Trivago, Couchsurfing, Expedia, Booking, TripAdvisor.
 ## Estrutura do diretório
 ```
 NAP/
-├── src/
-├── css/
-├── html/
-├── db/
-├── padroes_adotados/
-│   └── padroes.pdf
-├── requisitos/
-│   └── documento\ de\ requisitos.pdf
-└── README.md
+├── documentacao
+├── padroes_adotados
+├── requisitos
+└── src
+    ├── NAP
+    ├── core
+    │   ├── static
+    │   │   └── core
+    │   │       └── css
+    │   └── templates
+    │       └── core
+    └── templates
+            └── registration
 ```
 ## Roteiro
 - [X] Fase 0
 - [X] Fase 1
-- [ ] Fase 2
+- [X] Fase 2
 - [ ] Fase 3
 
 ## Descrição dos commits
