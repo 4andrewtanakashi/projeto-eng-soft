@@ -15,7 +15,7 @@ class Propriedade(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='O id unico da propriedade')
     nome = models.CharField(max_length=50, help_text='O nome da propriedade')
     descricao = models.TextField(max_length=500, help_text='Descrição da propriedade')
-    proprietario = models.ForeignKey(User, on_delete=models.CASCADE)
+    proprietario = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
     imagem = models.ImageField(upload_to='propriedades/', help_text='Imagem identificadora da propriedade')
     
     # inicio do endereco
@@ -67,9 +67,9 @@ class Propriedade(models.Model):
 class Reserva(models.Model):
     '''Representa uma reserva cadastrada no sistema'''
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
-    hospede = models.ForeignKey(User, on_delete=models.PROTECT)
-    propriedade = models.ForeignKey(Propriedade, on_delete=models.PROTECT)
-    dados_pagamento = models.ForeignKey('Pagamento', on_delete=models.PROTECT)
+    hospede = models.ForeignKey(User, on_delete=models.PROTECT, blank=True)
+    propriedade = models.ForeignKey(Propriedade, on_delete=models.PROTECT, blank=True)
+    dados_pagamento = models.ForeignKey('Pagamento', on_delete=models.PROTECT, blank=True)
 
     QTD_PESSOAS_CHOICES = (
         ('1', '1 pessoa'),

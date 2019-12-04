@@ -194,3 +194,18 @@ def signup_view(request):
 
     context = {'form': form}
     return render(request, 'core/signup.html', context)
+
+def usuario_view(request):
+    qtd_propriedades = Propriedade.objects.all().filter(proprietario=request.user).count()
+    qtd_reservas = Reserva.objects.all().filter(hospede=request.user).count()
+
+    usuario = request.user
+    context = {'user': request.user, 'qtd': qtd_propriedades, 'qtdr': qtd_reservas}
+    return render(request, 'core/user.html', context)
+
+def edit_usuario_view(request):
+    form = AtualizarUsuarioForm(request.POST or None, instance=request.user)
+    if form.is_valid():
+        form.save()
+        return redirect('/accounts/')
+    return render(request, 'core/form_edit_user.html', {'form': form})

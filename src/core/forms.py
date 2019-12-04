@@ -21,7 +21,12 @@ class RegistrarForm(UserCreationForm):
         super(RegistrarForm, self).__init__(*args, **kwargs)
         self.fields['first_name'].label = 'Primeiro nome'
         self.fields['last_name'].label = 'Último nome'
-    
+
+class AtualizarUsuarioForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ('first_name', 'last_name', 'email')
+
 class PropriedadeForm(forms.ModelForm):
     class Meta:
         model = Propriedade
@@ -151,6 +156,4 @@ class BuscaPropForm(forms.Form):
         if data_fim < data_ini:
             raise forms.ValidationError('Data inválida')
         return data_fim
-
-
 

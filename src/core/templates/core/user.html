@@ -1,0 +1,31 @@
+{% extends 'core/header.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container-fluid pt-5 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title" style="display: inline;">Dashboard</h2>
+                    <div class="float-right">
+                        <ul class="nav nav-pills card-header-pills">
+                            {% if user.is_authenticated  %}
+                            <li class="nav-link">
+                                <a href="/accounts/editar/" class="card-link">Editar</a>
+                            </li>
+                            {% endif %}
+                    </div>
+                </div>
+                <div class="card-body">
+                    <h3>Olá, {{user.first_name}} {{user.last_name}}</h3>
+                    <h5>Você possui {{qtd}} propriedades cadastradas no sistema e {{qtdr}} reservas feitas.</h5>
+                    <br>
+                    Seu email é: <a href="mailto:{{user.email}}">{{user.email}}</a>. 
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
