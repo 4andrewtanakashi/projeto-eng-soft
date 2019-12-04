@@ -39,8 +39,37 @@
                         </div>
                     </div>
                 </div>
-                 
-                
+                {% if user.is_authenticated %}
+                <div class="col-md-6 pt-5">
+                    <div class="card" style="box-shadow: 0em 1em 1em 1em #1f172b;">
+                        <div class="card-header">
+                            <h2 class="card-title" style="display: inline;">Buscar propriedade</h2>
+                        </div>
+                        <div class="card-body">
+                            <form method="post">
+                                <div class="form-group">
+                                    {% csrf_token %}
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            {{ form.cidade|as_crispy_field }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {{ form.data_ini|as_crispy_field }}
+                                        </div>
+                                        <div class="col-md-6">
+                                            {{ form.data_fim |as_crispy_field}}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="float-right">
+                                    <input type="submit" class="btn btn-primary" value="Enviar">
+                                    <input type="reset" class="btn btn-secondary" value="Limpar">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
             </div>
         </div>
     </div>

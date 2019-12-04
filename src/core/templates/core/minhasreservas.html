@@ -1,0 +1,41 @@
+{% extends 'core/header.html' %}
+
+{% block content %}
+<div class="container-fluid pt-5 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title" style="display: inline;">{{ titulo }} </h2>
+                </div>
+                <div class="card-body grid-container">
+                    {% for reserva in object_list %}
+
+                    <div class="card mb-4 p">
+                        <div class="row no-gutters">
+                            <div class="col-md-5">
+                                <img src="/media/{{reserva.propriedade.imagem}}" class="card-img" height=100% width=auto>
+                            </div>
+                            <div class="col-md-7">
+                                <div class="card-body">
+                                    <h5 class="card-title"><a href="/reserva/{{reserva.id}}">{{reserva.propriedade.nome}}</a></h5>
+                                    <p class="card-text">{{reserva.propriedade.descricao}}</p>
+                                    <p class="card-text">Proprietário: {{reserva.propriedade.proprietario}}</p>
+                                    <p class="card-text">Endereço: {{reserva.propriedade.rua}}, {{reserva.propriedade.CEP}}, {{reserva.propriedade.cidade}}, {{reserva.propriedade.estado}}</p>
+
+                                    <p class="card-text"><small class="text-muted">Reservado de {{reserva.dini}} até {{reserva.dfim}}</small></p>
+                                </div>
+                              </div>
+                        </div>
+                    </div>
+
+                    {% empty %}
+                    Vazio...
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

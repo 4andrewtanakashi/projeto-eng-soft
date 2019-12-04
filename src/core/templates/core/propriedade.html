@@ -53,17 +53,35 @@
                             <li class="nav-link">
                                 <a href="#cancelar" role="button" data-toggle="modal">Remover</a>
                             </li>
-                            
+                            {% else %}
+                            {% if ini and fim %}
+                            <li class="nav-link"><a href="/propriedade/reservar/{{prop.id}}/{{ini}}/{{fim}}"
+                                    class="card-link">Reservar</a></li>
+                            {% endif %}
                             {% endif %}
                     </div>
                 </div>
                 <img src="{{prop.imagem.url}}" width=100%>
                 <div class="card-body">
                     <div class="row">
-
-                        <h6>Sobre:</h6>
-                        {{ prop.descricao}}
-
+                        <div class="col-md-6">
+                            <h6>Sobre:</h6>
+                            {{ prop.descricao}}
+                        </div>
+                        <div class="col-md-6">
+                            {% if datas %}
+                            <h6>Indisponível nas datas:</h6>
+                            {% endif %}
+                            {% for data in datas %}
+                                De {{data.0}} até {{data.1}}
+                            {% endfor %}
+                            {% if dados and user.is_authenticated and prop.proprietario == user %}
+                            <h6>Reservada nas datas:</h6>
+                            {% for dado in dados %}
+                                Reservada para <a href="mailto:{{dado.0.email}}">{{dado.0.first_name}} {{dado.0.last_name}}</a>, de {{dado.1}} até {{dado.2}}
+                            {% endfor %}
+                            {% endif %}
+                        </div>
                     </div>
 
                 </div>
