@@ -1,0 +1,38 @@
+{% extends 'core/header.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="container-fluid pt-5 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title" style="display: inline;">Editar propriedade</h2>
+                </div>
+                <div class="card-body">
+                    <form method="post" class enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    {{ form.nome|as_crispy_field}}
+                                </div>
+                                <div class="col-md-6">
+                                    {{ form.imagem|as_crispy_field}}
+                                </div>
+                                <div class="col-md-12">
+                                    {{ form.descricao|as_crispy_field}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="float-right">
+                            <input type="submit" class="btn btn-primary" value="Enviar">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

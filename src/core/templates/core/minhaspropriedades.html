@@ -1,0 +1,38 @@
+{% extends 'core/header.html' %}
+
+{% block content %}
+<div class="container-fluid pt-5 pb-5">
+    <div class="row justify-content-center">
+        <div class="col-8">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title" style="display: inline;">{{ titulo }} </h2>
+                    <div class="float-right">
+                        <ul class="nav nav-pills card-header-pills">
+                            <li class="nav-link"><a href="/accounts/propriedades/cadastrar/" class="card-link">Cadastrar
+                                    nova
+                                    propriedade</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-body grid-container">
+                    {% for prop in object_list %}
+                    <div class="card mb-4 p">
+                        <img class="card-img-top" src="{{prop.imagem.url}}" width=100%></img>
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="/propriedade/{{prop.get_id}}">{{ prop.nome }}</a></h5>
+
+                            {{ prop.descricao }}
+                        </div>
+                    </div>
+
+                    {% empty %}
+                    Vazio...
+                    {% endfor %}
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
