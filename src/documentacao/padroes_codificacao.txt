@@ -1,0 +1,7 @@
+- Nome de modelos iniciam com letra maiúscula
+- Variáveis começam com letra minúscula, espaços substituidos por underscore (_)
+- Comentários anteriormente ao código comentado
+- Views baseadas em funções terão o sufixo _view
+- Formulários terão o sufixo Form
+- Urls terão o seguinte formato: /modelo_usado/ação(caso exista)/parâmetros
+
