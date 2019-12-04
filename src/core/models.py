@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.urls import reverse
+
 import uuid
 import datetime
 # Create your models here.
@@ -9,37 +9,54 @@ def get_data():
     return datetime.datetime.now() + datetime.timedelta(days=7)
 
 class Propriedade(models.Model):
-    """Representa uma propriedade cadastrada no sistema"""
+    '''Representa uma propriedade cadastrada no sistema'''
 
     # informacoes basicas da propriedade
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="O id unico da propriedade")
-    nome = models.CharField(max_length=50, help_text="O nome identificador da propriedade")
-    descricao = models.TextField(max_length=500, help_text="Descricao da propriedade")
-    proprietario = models.ForeignKey(User, on_delete=models.CASCADE, blank=True)
-    imagem = models.ImageField(upload_to='propriedades/')
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='O id unico da propriedade')
+    nome = models.CharField(max_length=50, help_text='O nome da propriedade')
+    descricao = models.TextField(max_length=500, help_text='Descrição da propriedade')
+    proprietario = models.ForeignKey(User, on_delete=models.CASCADE)
+    imagem = models.ImageField(upload_to='propriedades/', help_text='Imagem identificadora da propriedade')
     
     # inicio do endereco
-    rua = models.CharField(max_length=100, help_text="A rua da propriedade")
-    CEP = models.CharField(max_length=100, help_text="O cep da propriedade") # fazer regex para validar
-    cidade = models.CharField(max_length=100, help_text="A cidade onde a propriedade se encontra")
-    estado = models.CharField(max_length=100, help_text="O estado onde a propriedade se encontra")
+    rua = models.CharField(max_length=100, help_text='A rua da propriedade')
+    CEP = models.CharField(max_length=100, help_text='O CEP da propriedade') # fazer regex para validar
+    cidade = models.CharField(max_length=100, help_text='A cidade onde a propriedade se encontra')
 
+    ESTADO_CHOICES = (
+            ('AC', 'Acre'),
+            ('AL', 'Alagoas'),
+            ('AP', 'Amapá'),
+            ('AM', 'Amazonas'),
+            ('BA', 'Bahia'),
+            ('CE', 'Ceará'),
+            ('DF', 'Distrito Federal'),
+            ('ES', 'Espirito Santo'),
+            ('GO', 'Goiás'),
+            ('MA', 'Maranhão'),
+            ('MT', 'Mato Grosso'),
+            ('MS', 'Mato Grosso do Sul'),
+            ('MG', 'Minas Gerais'),
+            ('PA', 'Pará'),
+            ('PB', 'Paraíba'),
+            ('PR', 'Paraná'),
+            ('PE', 'Pernambuco'),
+            ('PI', 'Piauí'),
+            ('RJ', 'Rio de Janeiro'),
+            ('RN', 'Rio Grande do Norte'),
+            ('RS', 'Rio Grande do Sul'),
+            ('RO', 'Rondônia'),
+            ('RR', 'Roraima'),
+            ('SC', 'Santa Catarina'),
+            ('SP', 'São Paulo'),
+            ('SE', 'Sergipe'),
+            ('TO', 'Tocantins'),
+        )
 
-    RESERVA_STATUS = (
-        ('d', 'disponivel'),
-        ('i', 'indisponivel')
-    )
-
-    status = models.CharField(
-        max_length=1,
-        choices=RESERVA_STATUS,
-        blank=True,
-        default='d',
-        help_text="Disponibilidade para reserva"
-    )
+    estado = models.CharField(max_length=2, choices=ESTADO_CHOICES, help_text='O estado onde a propriedade se encontra')
 
     def __str__(self):
-        """Representacao da propriedade em string"""
+        '''Representacao da propriedade em string'''
         return self.nome
 
     def get_id(self):
@@ -48,22 +65,29 @@ class Propriedade(models.Model):
 
 
 class Reserva(models.Model):
-    """Representa uma reserva cadastrada no sistema"""
-    hospede = models.ForeignKey(User, on_delete=models.PROTECT, blank=True)
-    propriedade = models.ForeignKey(Propriedade, on_delete=models.PROTECT, blank=True)
-    dados_pagamento = models.ForeignKey('Pagamento', on_delete=models.PROTECT, blank=True)
+    '''Representa uma reserva cadastrada no sistema'''
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4)
+    hospede = models.ForeignKey(User, on_delete=models.PROTECT)
+    propriedade = models.ForeignKey(Propriedade, on_delete=models.PROTECT)
+    dados_pagamento = models.ForeignKey('Pagamento', on_delete=models.PROTECT)
 
-    qtdPessoas = models.IntegerField('Quantidade de pessoas da reserva', default=1)
-    ini = models.DateField('Inicio da reserva', default=datetime.datetime.now)
-    fim = models.DateField('Fim da reserva', default=get_data)
+    QTD_PESSOAS_CHOICES = (
+        ('1', '1 pessoa'),
+        ('2', '2 pessoas'),
+        ('3', '3 pessoas'),
+    )
+
+    qtd_pessoas = models.CharField('Quantidade de pessoas da reserva', max_length=1, choices=QTD_PESSOAS_CHOICES, default=1)
+    dini = models.DateField('Inicio da reserva', default=datetime.datetime.now)
+    dfim = models.DateField('Fim da reserva', default=get_data)
 
     def __str__(self):
-        """Representacao da reserva em string"""
+        '''Representacao da reserva em string'''
         return self.propriedade.nome
 
 class Pagamento(models.Model):
-    """Representa o pagamento de uma reserva existente no sistema"""
-    id_transacao = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text="O id unico da transacao")
+    '''Representa o pagamento de uma reserva existente no sistema'''
+    id_transacao = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='O id unico da transacao')
 
     ESCOLHAS_PAGAMENTO = (
         ('Débito', 'Débito'),
@@ -73,7 +97,6 @@ class Pagamento(models.Model):
     tipo_pagamento = models.CharField(
         max_length=7,
         choices=ESCOLHAS_PAGAMENTO,
-        blank=False,
         default='Crédito',
         help_text='Tipo de pagamento'
     )
@@ -86,9 +109,8 @@ class Pagamento(models.Model):
     status = models.CharField(
         max_length=1,
         choices=PAGAMENTO_STATUS,
-        blank=True,
         default='C',
-        help_text="Status do pagamento"
+        help_text='Status do pagamento'
     )
 
     def __str__(self):

@@ -3,7 +3,7 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.forms import UserCreationForm
 from django.http import HttpResponse, HttpResponseRedirect
 
-from django.db.models import Q
+from django.db.models import ProtectedError, Q
 
 from django.views.generic import ListView, FormView
 from .models import Propriedade, Reserva, Pagamento
@@ -13,6 +13,8 @@ from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404
 import datetime
 import time
+from django.contrib import messages
+from core.forms import PropriedadeEditForm, RegistrarForm
 
 
 # Create your views here.
@@ -28,11 +30,11 @@ class BuscaProp(ListView):
 
 class MinhasPropriedades(ListView):
     model = Propriedade
-    template_name = 'core/propriedades.html'
+    template_name = 'core/minhaspropriedades.html'
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['titulo'] = "Minhas propriedades"
+        context['titulo'] = 'Minhas propriedades'
         return context
 
     def get_queryset(self):
@@ -66,22 +68,31 @@ def prop_detalhe_view(request, pk):
     propriedade = get_object_or_404(Propriedade, id=pk)
     return render(request, 'core/propriedade.html', context={'prop': propriedade, 'user': request.user})
 
-def add_propriedade_form(request): 
+def add_propriedade_view(request): 
     form = PropriedadeForm(request.POST or None, request.FILES or None)
     if form.is_valid():
         propriedade = form.save(commit=False)
         propriedade.proprietario = request.user  # use your own profile here
         propriedade.save()
-        return redirect('/minhasprop/')
+        return redirect('/accounts/propriedades/')
     return render(request, 'core/form_propriedade.html', {'form': form}) 
 
-def edit_propriedade_form(request, pk): 
+def apagar_propriedade_view(request, pk):
+    propriedade = get_object_or_404(Propriedade, pk=pk)
+    try:
+        propriedade.delete()
+        return redirect('/accounts/propriedades/')
+    except ProtectedError as e:
+        messages.error(request, 'Não foi possível remover a propriedade, pois ela já possui reservas.')
+        return redirect('/propriedade/' + str(pk))
+
+def edit_propriedade_view(request, pk): 
     instance = get_object_or_404(Propriedade, id=pk)
-    form = PropriedadeForm(request.POST or None, request.FILES or None, instance=instance)
+    form = PropriedadeEditForm(request.POST or None, request.FILES or None, instance=instance)
     if form.is_valid():
         form.save()
-        return redirect('/minhasprop/')
-    return render(request, 'core/form_propriedade.html', {'form': form}) 
+        return redirect('/accounts/propriedades/')
+    return render(request, 'core/form_edit_propriedade.html', {'form': form}) 
 
 def add_reserva(request, pk):
     form = ReservaForm(request.POST or None)
@@ -105,19 +116,17 @@ def index(request):
         'core/index.html'
     )
 
-def signup(request):
-    if request.method=='POST':
-        form = UserCreationForm(request.POST)
+def signup_view(request):
+    form = RegistrarForm(request.POST or None)
 
-        if form.is_valid():
-            form.save()
-            username = form.cleaned_data['username']
-            password = form.cleaned_data['password1']
-            user = authenticate(username=username, password=password)
-            login(request, user)
-            return redirect('/')
-    else:
-        form = UserCreationForm()
+    if form.is_valid():
+        form.save()
+        username = form.cleaned_data['username']
+        password = form.cleaned_data['password1']
+        user = authenticate(username=username, password=password)
+        login(request, user)
+        return redirect('/')
+
     context = {'form': form}
     return render(request, 'core/signup.html', context)
 

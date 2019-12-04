@@ -3,6 +3,19 @@ from django.contrib.auth.forms import UserCreationForm
 from core.models import Propriedade, Reserva, Pagamento
 from django.contrib.auth.models import User
 
+class RegistrarForm(UserCreationForm):
+    first_name = forms.CharField(max_length=30, required=True, help_text='Obrigatório. O seu primeiro nome.')
+    last_name = forms.CharField(max_length=30, required=True, help_text='Obrigatório. O seu último nome.')
+    email = forms.EmailField(max_length=254, help_text='Obrigatório. Informe um email válido.')
+
+    class Meta:
+        model = User
+        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
+    
+    def __init__(self, *args, **kwargs):
+        super(RegistrarForm, self).__init__(*args, **kwargs)
+        self.fields['first_name'].label = 'Primeiro nome'
+        self.fields['last_name'].label = 'Último nome'
 
 class PropriedadeForm(forms.ModelForm):
     class Meta:
@@ -14,31 +27,12 @@ class PropriedadeForm(forms.ModelForm):
             'proprietario': forms.HiddenInput(),
             'status': forms.HiddenInput(),
         }
-'''
-class RegistrarForm(UserCreationForm):
-    usuario = forms.CharField(label="Usuario")
-    senha1 = forms.CharField(label="Digite sua senha", widget=forms.PasswordInput)
-    senha2 = forms.CharField(label="Digite sua senha novamente", widget=forms.PasswordInput)
-    email = forms.EmailField(label="E-mail")
-    nome = forms.CharField(label="Nome")
 
+class PropriedadeEditForm(forms.ModelForm):
     class Meta:
-        model = User
-        fields = ("username", "senha1", "senha2", "email", "nome")
+        model = Propriedade
+        fields = ['nome', 'descricao', 'imagem']
 
-    def save(self, commit=True):
-        user = super(RegistrarForm, self).save(commit=False)
-        prim_nome, seg_nome = self.cleaned_data["fullname"].split()
-        user.username = self.cleaned_data["usuario"]
-        user.password1 = self.cleaned_data["senha1"]
-        user.password2 = self.cleaned_data["senha2"]
-        user.first_name = prim_nome
-        user.last_name = seg_nome
-        user.email = self.cleaned_data["email"]
-        if commit:
-            user.save()
-        return user
-'''
 
 class ReservaForm(forms.ModelForm):
     class Meta:
@@ -47,11 +41,12 @@ class ReservaForm(forms.ModelForm):
         fields = '__all__'
 
         widgets = {
+            'id': forms.HiddenInput(attrs={'readonly':'True'}),
             'hospede': forms.HiddenInput(),
             'propriedade': forms.HiddenInput(),
             'dados_pagamento': forms.HiddenInput(),
-            'ini': forms.DateInput(attrs={'type': 'date'}),
-            'fim': forms.DateInput(attrs={'type': 'date'}),
+            'dini': forms.DateInput(attrs={'type': 'date'}),
+            'dfim': forms.DateInput(attrs={'type': 'date'}),
             'qtd_pessoas': forms.Select()
         }
 
