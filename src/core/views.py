@@ -16,8 +16,8 @@ import time
 from django.contrib import messages
 
 
-# Create your views here.
-
+# Classe de controle que exibe as propriedades
+# De um usuário na tela
 class MinhasPropriedades(ListView):
     model = Propriedade
     template_name = 'core/minhaspropriedades.html'
@@ -30,6 +30,9 @@ class MinhasPropriedades(ListView):
     def get_queryset(self):
         return Propriedade.objects.filter(proprietario=self.request.user)
 
+# Classe de controle que exibe todas as propriedades
+# Que estão disponíveis de acordo com uma cidade, uma data inicial
+# E uma data final
 class PropDisponiveis(ListView):
     model = Propriedade
     template_name = 'core/propriedades.html'
@@ -52,15 +55,12 @@ class PropDisponiveis(ListView):
             Q(dini__lte=data_fim, dfim__gte=data_ini)
         )
 
-        # reservas = Reserva.objects.filter(propriedade__in=prop).filter(
-        #     Q(ini__lte=data_ini, fim__gte=data_fim) | # ok
-        #     Q(ini__gt=data_ini, fim__gt=data_fim, fim__gt=data_ini)| 
-        #     Q(ini__lt=data_ini, fim__lt=data_fim, fim__gt=data_ini)| 
-        #     Q(ini__gt=data_ini, fim__lt=data_fim))
         prop = prop.exclude(id__in=reservas.values_list('propriedade', flat=True))
 
         return prop
 
+# Classe de controle que exibe todas as reservas
+# De um usuário na tela
 class MinhasReservas(ListView):
     model = Reserva
     template_name = 'core/minhasreservas.html'
@@ -73,6 +73,9 @@ class MinhasReservas(ListView):
     def get_queryset(self):
         return Reserva.objects.filter(hospede=self.request.user)
 
+# Função de controle que exibe os detalhes de uma propriedade
+# Específica na tela, sendo que essa propriedade é determinada
+# Pela chave primária
 def prop_detalhe_view(request, pk):
     propriedade = get_object_or_404(Propriedade, id=pk)
     reservas = Reserva.objects.all().filter(propriedade=propriedade)
@@ -85,6 +88,11 @@ def prop_detalhe_view(request, pk):
 
     return render(request, 'core/propriedade.html', context={'prop': propriedade, 'user': request.user, 'dados': dados})
 
+# Função de controle que exibe os detalhes de uma propriedade
+# Específica na tela, porém no contexto de efetuar a reserva
+# Nesse caso, além da chave primária tanto a data inicial
+# Quanto a data final estarão no contexto da visão
+# A fim de determinar se é possível efetuar a reserva
 def prop_detalhe_reserva_view(request, pk, ini, fim):
     propriedade = get_object_or_404(Propriedade, id=pk)
     datas = []
@@ -97,6 +105,10 @@ def prop_detalhe_reserva_view(request, pk, ini, fim):
         datas.append((data_ini, data_fim))
     return render(request, 'core/propriedade.html', context={'prop': propriedade, 'user': request.user, 'ini': ini, 'fim': fim, 'datas': datas})
 
+# Função de controle que exibe os detalhes de uma reserva
+# Específica na tela
+# A reserva é dependente da chave primária, e o controle envia de contexto
+# Uma variável booleana que controla se a reserva é editável ou não
 def reserva_detalhe_view(request, pk):
     reserva = get_object_or_404(Reserva, id=pk)
     pode_editar = True
@@ -104,6 +116,8 @@ def reserva_detalhe_view(request, pk):
         pode_editar = False
     return render(request, 'core/reserva.html', context={'reserva': reserva, 'user': request.user, 'editavel': pode_editar})
 
+# Função de controle que exibe um formulário
+# Para cadastrar uma propriedade no sistema
 def add_propriedade_view(request): 
     form = PropriedadeForm(request.POST or None, request.FILES or None)
     if form.is_valid():
@@ -113,6 +127,10 @@ def add_propriedade_view(request):
         return redirect('/accounts/propriedades/')
     return render(request, 'core/form_propriedade.html', {'form': form}) 
 
+# Função de controle que trata a exclusão
+# De uma propriedade no sistema
+# Caso não seja possível excluir, uma mensagem de erro
+# É enviada por meio do objeto messages
 def apagar_propriedade_view(request, pk):
     propriedade = get_object_or_404(Propriedade, pk=pk)
     try:
@@ -122,6 +140,8 @@ def apagar_propriedade_view(request, pk):
         messages.error(request, 'Não foi possível remover a propriedade, pois ela já possui reservas.')
         return redirect('/propriedade/' + str(pk))
 
+# Função de controle que exibe um formulário
+# Para editar uma propriedade já existente no sistema
 def edit_propriedade_view(request, pk): 
     instance = get_object_or_404(Propriedade, id=pk)
     form = PropriedadeEditForm(request.POST or None, request.FILES or None, instance=instance)
@@ -130,6 +150,8 @@ def edit_propriedade_view(request, pk):
         return redirect('/accounts/propriedades/')
     return render(request, 'core/form_edit_propriedade.html', {'form': form}) 
 
+# Função de controle que exibe um formulário
+# Para adicionar uma reserva no sistema
 def add_reserva_view(request, pk, ini, fim):
     propriedade = get_object_or_404(Propriedade, id=pk)
     nome = propriedade.nome
@@ -148,6 +170,8 @@ def add_reserva_view(request, pk, ini, fim):
         return redirect('/accounts/reservas/')
     return render(request, 'core/form_reserva.html', {'form': form, 'form_pag': formPagamento, 'nome': nome}) 
 
+# Função de controle que exibe um formulário
+# Para editar uma reserva já existente no sistema
 def edit_reserva_view(request, pk):
     reserva = get_object_or_404(Reserva, id=pk)
     form = ReservaEditForm(request.POST or None, instance=reserva)
@@ -158,6 +182,10 @@ def edit_reserva_view(request, pk):
         return redirect('/reserva/' + str(pk))
     return render(request, 'core/form_edit_reserva.html', {'form': form, 'form_pag': form_pag}) 
 
+# Função de controle que trata a exclusão
+# De uma reserva no sistema
+# Caso não seja possível excluir, uma mensagem de erro
+# É enviada por meio do objeto messages
 def apagar_reserva_view(request, pk):
     reserva = get_object_or_404(Reserva, pk=pk)
     if (reserva.dini < datetime.date.today() or reserva.dfim < datetime.date.today()):
@@ -172,6 +200,8 @@ def apagar_reserva_view(request, pk):
         messages.error(request, 'Não foi possível remover a reserva.')
         return redirect('/reserva/' + str(pk) + '/')
 
+# Uma função de controle
+# Que trata a exibição da tela inicial do sistema
 def index_view(request):
     form = BuscaPropForm(request.POST or None)
     if (form.is_valid()):
@@ -181,6 +211,8 @@ def index_view(request):
         return HttpResponseRedirect('/propriedades/'+ cidade +'/' + ini + '/' + fim)
     return render(request,'core/index.html', {'form': form})
 
+# Uma função de controle que exibe um formulário
+# Para que o usuário possa se autenticar no sistema
 def signup_view(request):
     form = RegistrarForm(request.POST or None)
 
@@ -195,6 +227,8 @@ def signup_view(request):
     context = {'form': form}
     return render(request, 'core/signup.html', context)
 
+# Uma função de controle que exibe os dados de um usuário
+# Na tela
 def usuario_view(request):
     qtd_propriedades = Propriedade.objects.all().filter(proprietario=request.user).count()
     qtd_reservas = Reserva.objects.all().filter(hospede=request.user).count()
@@ -203,6 +237,8 @@ def usuario_view(request):
     context = {'user': request.user, 'qtd': qtd_propriedades, 'qtdr': qtd_reservas}
     return render(request, 'core/user.html', context)
 
+# Função de controle que exibe um formulário para que o usuário
+# Possa atualizar seus dados cadastrais
 def edit_usuario_view(request):
     form = AtualizarUsuarioForm(request.POST or None, instance=request.user)
     if form.is_valid():

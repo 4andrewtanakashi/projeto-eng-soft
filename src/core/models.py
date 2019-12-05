@@ -3,13 +3,15 @@ from django.contrib.auth.models import User
 
 import uuid
 import datetime
-# Create your models here.
 
+# Função auxiliar para definir o tempo default
+# De uma reserva
 def get_data():
     return datetime.datetime.now() + datetime.timedelta(days=7)
 
+# Classe para o model Propriedade, com campos que descrevem
+# Uma propriedade em um sistema de reservas
 class Propriedade(models.Model):
-    '''Representa uma propriedade cadastrada no sistema'''
 
     # informacoes basicas da propriedade
     id = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='O id unico da propriedade')
@@ -23,6 +25,7 @@ class Propriedade(models.Model):
     CEP = models.CharField(max_length=100, help_text='O CEP da propriedade') # fazer regex para validar
     cidade = models.CharField(max_length=100, help_text='A cidade onde a propriedade se encontra')
 
+    # as possíveis escolhas para o campo estado
     ESTADO_CHOICES = (
             ('AC', 'Acre'),
             ('AL', 'Alagoas'),
@@ -56,21 +59,23 @@ class Propriedade(models.Model):
     estado = models.CharField(max_length=2, choices=ESTADO_CHOICES, help_text='O estado onde a propriedade se encontra')
 
     def __str__(self):
-        '''Representacao da propriedade em string'''
         return self.nome
 
     def get_id(self):
         return str(self.id)
 
 
-
+# Classe para o model Reserva, com campos que descrevem
+# Uma reserva em um sistema de reservas
 class Reserva(models.Model):
-    '''Representa uma reserva cadastrada no sistema'''
+
+    # informacoes basicas da reserva
     id = models.UUIDField(primary_key=True, default=uuid.uuid4)
     hospede = models.ForeignKey(User, on_delete=models.PROTECT, blank=True)
     propriedade = models.ForeignKey(Propriedade, on_delete=models.PROTECT, blank=True)
     dados_pagamento = models.ForeignKey('Pagamento', on_delete=models.PROTECT, blank=True)
 
+    # as possiveis escolhas para o campo qtd_pessoas
     QTD_PESSOAS_CHOICES = (
         ('1', '1 pessoa'),
         ('2', '2 pessoas'),
@@ -78,17 +83,23 @@ class Reserva(models.Model):
     )
 
     qtd_pessoas = models.CharField('Quantidade de pessoas da reserva', max_length=1, choices=QTD_PESSOAS_CHOICES, default=1)
+
+    # campos do tipo data, que determinam o inicio e o fim da reserva
     dini = models.DateField('Inicio da reserva', default=datetime.datetime.now)
     dfim = models.DateField('Fim da reserva', default=get_data)
 
     def __str__(self):
-        '''Representacao da reserva em string'''
         return self.propriedade.nome
 
+# Classe para o model Pagamento, com campos que descrevem
+# Um pagamento em um sistema de reservas
 class Pagamento(models.Model):
-    '''Representa o pagamento de uma reserva existente no sistema'''
+
+    # informacoes basicas do pagamento
     id_transacao = models.UUIDField(primary_key=True, default=uuid.uuid4, help_text='O id unico da transacao')
 
+    # variavel que determina as possiveis escolhas para o campo
+    # tipo_pagamento
     ESCOLHAS_PAGAMENTO = (
         ('Débito', 'Débito'),
         ('Crédito', 'Crédito')
@@ -100,7 +111,9 @@ class Pagamento(models.Model):
         default='Crédito',
         help_text='Tipo de pagamento'
     )
-
+    
+    # variavel que determina as possiveis escolhas para o campo
+    # status
     PAGAMENTO_STATUS = (
         ('C', 'concluido'),
         ('I', 'inconcluido')

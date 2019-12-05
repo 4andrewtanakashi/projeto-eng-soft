@@ -8,6 +8,8 @@ from django.shortcuts import get_object_or_404
 
 import re
 
+# Formulário que permite o cadastro de um usuário no sistema
+# Possui validadores internos, fornecidos pela classe UserCreationForm
 class RegistrarForm(UserCreationForm):
     first_name = forms.CharField(max_length=30, required=True, help_text='Obrigatório. O seu primeiro nome.')
     last_name = forms.CharField(max_length=30, required=True, help_text='Obrigatório. O seu último nome.')
@@ -22,11 +24,16 @@ class RegistrarForm(UserCreationForm):
         self.fields['first_name'].label = 'Primeiro nome'
         self.fields['last_name'].label = 'Último nome'
 
+# Formulário que permite a atualização dos dados de um usuário no sistema
+# Possui validadores internos, fornecidos pelo model User
 class AtualizarUsuarioForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'email')
 
+# Formulário que permite o cadastro de uma propriedade no sistema
+# Possui validadores para o campo CEP
+# E possui campos escondidos que são setados pelo sistema
 class PropriedadeForm(forms.ModelForm):
     class Meta:
         model = Propriedade
@@ -44,18 +51,27 @@ class PropriedadeForm(forms.ModelForm):
             raise forms.ValidationError('CEP inválido')
         return CEP
 
+# Formulário que permite a atualização dos dados de uma 
+# Propriedade no sistema
 class PropriedadeEditForm(forms.ModelForm):
     class Meta:
         model = Propriedade
         fields = ['nome', 'descricao', 'imagem']
 
+# Formulário que permite a atualização dos dados de uma 
+# Reserva no sistema
 class ReservaEditForm(forms.ModelForm):
     class Meta:
         model = Reserva
 
         fields = ['qtd_pessoas']
 
-
+# Formulário que permite o cadastro de uma reserva no sistema
+# Possui validadores para os campos dini (data inicial),
+# dfim (data final), a fim de evitar que reservas sejam feitas
+# No passado ou que reservas sejam feitas em datas que a propriedade
+# Já esteja reservada
+# E possui campos escondidos que são setados pelo sistema
 class ReservaForm(forms.ModelForm):
     class Meta:
         model = Reserva
@@ -111,6 +127,8 @@ class ReservaForm(forms.ModelForm):
 
         return cleaned_data
 
+# Formulário que permite a atualização dos dados de um 
+# Pagamento no sistema
 class PagamentoEditForm(forms.ModelForm):
     class Meta:
         model = Pagamento
@@ -121,6 +139,9 @@ class PagamentoEditForm(forms.ModelForm):
         super(PagamentoEditForm, self).__init__(*args, **kwargs)
         self.fields['tipo_pagamento'].label = 'Tipo de pagamento'
 
+# Formulário que permite o cadastro de um pagamento no sistema
+# É exibido junto com o formulário ReservaForm
+# Possui campos escondidos que são setados pelo sistema
 class PagamentoForm(forms.ModelForm):
     class Meta:
         model = Pagamento
@@ -136,6 +157,10 @@ class PagamentoForm(forms.ModelForm):
         super(PagamentoForm, self).__init__(*args, **kwargs)
         self.fields['tipo_pagamento'].label = 'Tipo de pagamento'
 
+# Formulário que permite que uma propriedade seja buscada no sistema
+# Para que uma reserva seja efetuada
+# Possui validadores nos campos de data_ini e data_fim
+# A fim de evitar que não seja possível pesquisar datas no passado
 class BuscaPropForm(forms.Form):
     cidade = forms.CharField(label='Cidade', max_length=100,widget=forms.TextInput(attrs={'class': 'form-control'}))
     data_ini = forms.DateField(label='Data de entrada', widget=forms.DateInput(attrs={'type': 'date', 'class': 'form-control'}))
