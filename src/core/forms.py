@@ -40,15 +40,15 @@ class PropriedadeForm(forms.ModelForm):
         fields = '__all__'
 
         widgets = {
-            'id': forms.HiddenInput(attrs={'readonly':'True'}),
-            'proprietario': forms.HiddenInput(attrs={'readonly':'True'}),
+            'id': forms.HiddenInput(attrs={}),
+            'proprietario': forms.HiddenInput(attrs={}),
             'imagem': forms.ClearableFileInput(),
         }
     
     def clean_CEP(self):
         CEP = self.cleaned_data['CEP']
         if not re.match('^\d{5}-\d{3}', CEP):
-            raise forms.ValidationError('CEP inválido')
+            self.add_error('CEP', 'CEP inválido')
         return CEP
 
 # Formulário que permite a atualização dos dados de uma 
@@ -169,7 +169,7 @@ class BuscaPropForm(forms.Form):
     def clean_data_ini(self):
         data_ini = self.cleaned_data['data_ini']
         if data_ini < datetime.date.today():
-            raise forms.ValidationError('A data não pode ser no passado')
+            self.add_error('data_ini', 'A data não pode ser no passado')
         return data_ini
     
     def clean_data_fim(self):
@@ -177,8 +177,8 @@ class BuscaPropForm(forms.Form):
         data_ini = cleaned_data['data_ini']
         data_fim = cleaned_data['data_fim']
         if data_fim < datetime.date.today():
-            raise forms.ValidationError('A data não pode ser no passado')
+            self.add_error('data_fim', 'A data não pode ser no passado')
         if data_fim < data_ini:
-            raise forms.ValidationError('Data inválida')
+            self.add_error('data_fim', 'Data inválida')
         return data_fim
 

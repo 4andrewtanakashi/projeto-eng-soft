@@ -1,9 +1,9 @@
 from django.test import TestCase
 from django.contrib.auth.models import User
 from .models import *
+from .forms import *
 import uuid
 import datetime
-
 
 # Classe que executa testes em um Model do tipo Propriedade
 class TestPropriedade(TestCase):
@@ -178,8 +178,70 @@ class TestReserva(TestCase):
         # E a data presente em Reserva não contém esses campos mais
         self.assertEqual(self.reserva.dfim.strftime("%Y-%m-%d"), self.data_fim.strftime("%Y-%m-%d"))
 
-        
+# Classe que testa se a validação feita no formulário
+# BuscaPropriedade é realizada corretamente
+class TestBuscaPropriedadeForm(TestCase):
+    def setUp(self):
+        self.cidade = 'Lavras'
+        self.data_ini_invalido = datetime.datetime.strptime("2018-08-27", "%Y-%m-%d")
+        self.data_fim_invalido = datetime.datetime.strptime("2016-08-27", "%Y-%m-%d")
+        self.data_ini = datetime.datetime.strptime("2020-01-01", "%Y-%m-%d")
+        self.data_fim = datetime.datetime.strptime("2020-01-15", "%Y-%m-%d")
 
-
-
+    # Testa se o form não possui erros ao ser fornecido um dado válido
+    def test_form_valido(self):
+        dados = {
+            'cidade': self.cidade,
+            'data_ini': self.data_ini,
+            'data_fim': self.data_fim
+        }
+        form = BuscaPropForm(data = dados)
+        self.assertTrue(form.is_valid())
     
+    # Testa se o form possui erros ao ser fornecido um dado inválido
+    def test_form_invalido(self):
+        dados = {
+            'cidade': self.cidade,
+            'data_ini': self.data_ini_invalido,
+            'data_fim': self.data_fim_invalido
+        }
+        form = BuscaPropForm(data = dados)
+        self.assertFalse(form.is_valid())
+
+# Classe que testa se a validação interna feita no formulário
+# RegistrarForm é realizada corretamente
+class TestRegistrarForm(TestCase):
+    def setUp(self):
+        self.usuario = 'andrew'
+        self.password1 = 'abacaxi1234'
+        self.password2 = 'abacaxi12345'
+        self.email = 'andrew@email.com'
+        self.email_invalido = 'andrewemail.com'
+        self.prim_nome = 'Andrew'
+        self.ult_nome = 'Werdna'
+
+    # Testa se o form não possui erros ao ser fornecido um dado válido
+    def test_form_valido(self):
+        dados = {
+            'username': self.usuario,
+            'password1': self.password1,
+            'password2': self.password1,
+            'email': self.email,
+            'first_name': self.prim_nome,
+            'last_name': self.ult_nome
+        }
+        form = RegistrarForm(data=dados)
+        self.assertTrue(form.is_valid())
+
+    # Testa se o form possui erros ao ser fornecido um dado inválido
+    def test_form_invalido(self):
+        dados = {
+            'username': self.usuario,
+            'password1': self.password1,
+            'password2': self.password2,
+            'email': self.email_invalido,
+            'first_name': self.prim_nome,
+            'last_name': self.ult_nome
+        }
+        form = RegistrarForm(data=dados)
+        self.assertFalse(form.is_valid())
