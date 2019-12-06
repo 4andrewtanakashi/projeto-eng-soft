@@ -34,7 +34,7 @@ NAP/
 - [X] Fase 0
 - [X] Fase 1
 - [X] Fase 2
-- [ ] Fase 3
+- [X] Fase 3
 
 ## Descrição dos commits
 Commits serão feitos de acordo com a seguinte tabela:
