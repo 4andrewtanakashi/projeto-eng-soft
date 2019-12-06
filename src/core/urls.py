@@ -32,4 +32,5 @@ urlpatterns = [
     path('propriedade/remover/<uuid:pk>/', login_required(apagar_propriedade_view), name='remover'),
     path('propriedade/reservar/<uuid:pk>/<slug:ini>/<slug:fim>', login_required(add_reserva_view), name='reservar'),
 
+
 ]
